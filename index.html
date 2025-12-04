@@ -897,15 +897,14 @@ document.addEventListener("click", function startAudio() {
             <p style="font-size: 1.3rem; color: var(--color-white); text-shadow: 2px 2px 0 var(--color-black); margin-bottom: 20px; font-weight: bold;">👇 CLICK THE BOX BELOW TO COPY 👇</p>
 
             <div class="contract-box bounce-on-hover" id="copyButton">
-                <span id="contractAddress">CA: 0000....0000</span>
+                <span id="contractAddress">CA: EBqo....pump</span>
                 <!-- Custom icon using a system emoji -->
                 <span class="copy-icon" title="Copy to clipboard">📋</span>
             </div>
 
             <p style="margin-top: 15px; font-size: 1.1rem; color: var(--color-white); text-shadow: 1px 1px 0 var(--color-black);">The bag is about to drop! Stay frosty.</p>
       <br>
-            <style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style><div id="dexscreener-embed"><iframe src="https://dexscreener.com/osmosis/3117-factory_osmo1n3n75av8awcnw4jl62n3l48e6e4sxqmaf97w5ua6ddu4s475q5qq9udvx4_alloyed_allSOL-ibc_498A0751C798A0D9A389AA3691123DADA57DAA4FE165D5C75894505B876BA6E4?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
-        
+     <style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style><div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/3tSTxZT1ZW8RXmY1nppDPjTCmB3LEGu37ERPqooDtSeM?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
         </div>
     </section>
 
@@ -1008,7 +1007,7 @@ document.addEventListener("click", function startAudio() {
                 const textToCopy = contractAddressElement.textContent.replace('CA: ', '');
                 
                 // Use the full contract address if placeholder is shown
-                const finalCopyText = textToCopy === '0000....0000' ? '000000000000000000000000000000000000' : textToCopy;
+                const finalCopyText = textToCopy === 'EBqo....pump' ? 'EBqo1qXzhEiL4DTkspkXZwvuxtAvttcYAuJvkyK6pump' : textToCopy;
 
                 // Function to copy text using the standard execCommand (reliable in iframe/browser environment)
                 function copyTextToClipboard(text) {
