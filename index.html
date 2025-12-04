@@ -785,11 +785,12 @@
     </div>
     <div class="snow-container"></div>
 <div style="height: 200vh;">
+  <audio id="myAudio" src="/wishyou.mp3"></audio>
+    <script>
+      const audio = document.getElementById('myAudio');
+      audio.play();
+    </script>
 
-
-<audio id="bgm" autoplay loop>
-<source src="/wishyou.mp3" type="audio/mpeg" />
-</audio>
     <!-- HEADER/NAVBAR -->
     <header class="header">
         <div class="nav-content container">
@@ -1149,22 +1150,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-var bgm=document.getElementById("bgm");
-function bgmPlay()
-  {
-  bgm.play();
-  }
-function bgmPause()
-  {
-  bgm.pause();
-  } 
-function bgmStop()
-  {
-  bgm.pause();
-  bgm.currentTime = 0;
-  } 
 
 
     </script>
