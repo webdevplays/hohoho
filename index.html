@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOJMAS - The Official Meme Coin of the Holiday Season</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/DZ3KRrQp/159378_removebg_preview.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <style>
+        /* * GLOBAL STYLES & RESETS 
+         * All CSS is internal and self-contained. 
+         */
+
+        :root {
+            --color-red-christmas: #c53030; /* Main Red Background */
+            --color-red-header: #bd1717; /* Header/Accent Red */
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --color-yellow-hover: #f6e05e;
+            --font-family-cartoon: 'Chewy', 'Comic Neue', 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive, sans-serif;
+            --border-width: 4px;
+            --shadow-offset: 6px;
+        }
+
+        /* Essential Reset and System Font */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family-cartoon);
+            /* Smooth scrolling implementation */
+            scroll-behavior: smooth; 
+        }
+
+        body {
+            background-color: var(--color-white);
+            color: var(--color-black);
+            overflow-x: hidden; /* Prevent horizontal scroll due to shadows/decor */
+            position: relative;
+        }
+
+        /* * REUSABLE COMPONENT STYLES 
+         */
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            padding: 60px 20px;
+            min-height: 80vh;
+            border-bottom: var(--border-width) solid var(--color-black);
+            position: relative;
+            overflow-x: hidden; /* Only clip horizontal overflow */
+        }
+
+        .section-red {
+            background-color: var(--color-red-christmas);
+            color: var(--color-white);
+        }
+
+        .section-white {
+            background-color: var(--color-white);
+            color: var(--color-black);
+        }
+
+        /* Cartoon Header Style (Thick border/shadow) */
+        .cartoon-header {
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: var(--color-red-header);
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 10px 20px;
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            display: inline-block;
+            background-color: var(--color-white);
+            transform: rotate(-3deg);
+            line-height: 1.1;
+            font-weight: 900;
+        }
+
+        /* Cartoon Button Style */
+        .cartoon-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background-color: var(--color-red-christmas);
+            color: var(--color-white);
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: bold;
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            transition: all 0.1s ease-out;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cartoon-btn:hover {
+            background-color: var(--color-yellow-hover);
+            color: var(--color-black);
+            box-shadow: 2px 2px 0 0 var(--color-black);
+            transform: translate(4px, 4px) rotate(1deg); /* Press effect */
+        }
+
+        /* * WIGGLE/BOUNCE ANIMATIONS 
+         */
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(1.5deg); }
+            75% { transform: rotate(-1.5deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .wiggle-on-hover:hover {
+            animation: wiggle 0.3s infinite alternate;
+        }
+        
+        .bounce-on-hover:hover {
+            animation: bounce 0.3s infinite alternate;
+        }
+        
+        /* Applied to main elements for visual energy */
+        .energetic {
+            transition: transform 0.2s;
+        }
+        .energetic:hover {
+            transform: scale(1.02);
+        }
+
+        /* Floating Christmas Decor */
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.9; }
+            50% { transform: translate(15px, 20px) rotate(5deg); opacity: 1; }
+            100% { transform: translate(0, 0) rotate(0deg); opacity: 0.9; }
+        }
+
+        @keyframes floatDiagonal {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.8; }
+            25% { transform: translate(20px, -15px) rotate(10deg); opacity: 1; }
+            50% { transform: translate(30px, 10px) rotate(-5deg); opacity: 0.9; }
+            75% { transform: translate(10px, 25px) rotate(8deg); opacity: 1; }
+            100% { transform: translate(0, 0) rotate(0deg); opacity: 0.8; }
+        }
+
+        @keyframes floatSlow {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-25px) rotate(10deg); opacity: 1; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .decor-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .christmas-decor {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.9;
+            pointer-events: all;
+            animation: float 8s ease-in-out infinite alternate;
+            cursor: pointer;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .christmas-decor:hover {
+            transform: scale(1.3) rotate(15deg);
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        /* * HEADER / NAVIGATION 
+         */
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--color-red-header);
+            border-bottom: var(--border-width) solid var(--color-black);
+            box-shadow: 0 var(--shadow-offset) 0 0 var(--color-black);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--color-white);
+        }
+
+        .logo-img {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+            margin-right: 10px;
+            
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 0 var(--color-black);
+            letter-spacing: 1px;
+            transform: rotate(-2deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-white);
+            text-decoration: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-yellow-hover);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 2rem;
+            color: var(--color-white);
+            padding: 5px 10px;
+            border: 2px solid transparent;
+            line-height: 1;
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: var(--color-red-header);
+                position: absolute;
+                top: 60px;
+                left: 0;
+                padding-bottom: 10px;
+                box-shadow: 0 var(--shadow-offset) 0 0 var(--color-black);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                text-align: center;
+            }
+            .nav-links a {
+                display: block;
+                padding: 12px;
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .hamburger {
+                display: block;
+                border: var(--border-width) solid var(--color-black);
+                box-shadow: 3px 3px 0 0 var(--color-black);
+                background-color: var(--color-red-christmas);
+            }
+            .hamburger:hover {
+                 background-color: var(--color-yellow-hover);
+            }
+        }
+
+        /* * SECTION 1: HERO / CTA 
+         */
+        #home {
+            text-align: center;
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 0 var(--color-red-header);
+            transform: rotate(1deg);
+            font-weight: 900;
+        }
+
+        .hero-image-container {
+            margin: 40px auto;
+            max-width: 500px;
+            width: 90%;
+            height: auto;
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            background-color: var(--color-white);
+            transform: rotate(-5deg);
+        }
+        
+        .hero-image {
+            width: 100%;
+            display: block;
+            /* This makes the image wiggle slightly on mouse interaction */
+            transition: transform 0.1s ease-out; 
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* * SECTION 2: ABOUT 
+         */
+        #about .container {
+            max-width: 900px;
+            text-align: center;
+        }
+        #about p {
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            line-height: 1.6;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            transform: rotate(2deg);
+            color: var(--color-black);
+        }
+
+        /* * SECTION 3: TOKENOMICS 
+         */
+        #tokenomics {
+             text-align: center;
+        }
+        .tokenomics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .tokenomics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tokenomics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .token-item {
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding: 25px;
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            transform: rotate(var(--item-rotate, 0deg)); /* Custom rotation */
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .token-item:nth-child(even) { --item-rotate: -2deg; }
+        .token-item:nth-child(odd) { --item-rotate: 3deg; }
+
+        .token-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--color-red-header);
+            text-shadow: 1px 1px 0 var(--color-black);
+            font-weight: 900;
+        }
+        .token-item p {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* * SECTION 4: CONTRACT ADDRESS 
+         */
+        #contract {
+            text-align: center;
+        }
+
+        .contract-box {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 40px;
+            padding: 20px 30px;
+            background-color: var(--color-white);
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--color-black);
+        }
+
+        .contract-box:hover {
+            background-color: var(--color-yellow-hover);
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0 0 var(--color-black);
+        }
+
+        .copy-icon {
+            cursor: pointer;
+            margin-left: 15px;
+            font-size: 1.8rem;
+            line-height: 1;
+            transition: color 0.1s, transform 0.1s;
+        }
+
+        .copy-icon:hover {
+            color: var(--color-red-christmas);
+            transform: scale(1.1);
+        }
+
+        /* TOAST NOTIFICATION (Custom Alert) */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--color-yellow-hover);
+            color: var(--color-black);
+            text-align: center;
+            padding: 16px;
+            position: fixed;
+            z-index: 2000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+
+        /* * SECTION 5: PHASES (Roadmap)
+         */
+        #phases {
+            text-align: center;
+        }
+
+        .roadmap-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .phase {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--color-white);
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase:nth-child(odd) {
+            transform: rotate(-1deg);
+            margin-left: 5%;
+            margin-right: -5%;
+            flex-direction: row;
+        }
+
+        .phase:nth-child(even) {
+            transform: rotate(2deg);
+            margin-right: 5%;
+            margin-left: -5%;
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .phase:nth-child(odd), .phase:nth-child(even) {
+                flex-direction: column;
+                text-align: center;
+                margin: 0;
+            }
+        }
+
+        .phase-content {
+            flex-grow: 1;
+            padding: 0 20px;
+        }
+
+        .phase-title {
+            font-size: 2rem;
+            color: var(--color-red-christmas);
+            text-shadow: 2px 2px 0 var(--color-black);
+            margin-bottom: 10px;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .phase-details {
+            font-size: 1.1rem;
+        }
+        
+        .phase-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 3px solid var(--color-black);
+            box-shadow: 4px 4px 0 0 var(--color-black);
+            transform: rotate(var(--img-rotate, 0deg));
+            transition: transform 0.2s;
+        }
+        .phase:nth-child(1) .phase-image { --img-rotate: 5deg; }
+        .phase:nth-child(2) .phase-image { --img-rotate: -8deg; }
+        .phase:nth-child(3) .phase-image { --img-rotate: 3deg; }
+
+
+        /* * SECTION 6: HOW TO BUY 
+         */
+        .step-card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .step-card {
+            max-width: 300px;
+            padding: 25px;
+            background-color: var(--color-white);
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            text-align: center;
+            transform: rotate(var(--card-rotate, 0deg));
+            flex: 1 1 250px;
+            color: var(--color-black);
+        }
+
+        .step-card:nth-child(1) { --card-rotate: -4deg; }
+        .step-card:nth-child(2) { --card-rotate: 1deg; }
+        .step-card:nth-child(3) { --card-rotate: 3deg; }
+
+        .step-number {
+            font-size: 3rem;
+            color: var(--color-red-christmas);
+            text-shadow: 3px 3px 0 var(--color-black);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--color-black);
+            font-weight: 900;
+        }
+        .step-desc {
+            font-size: 1.1rem;
+            color: var(--color-black);
+        }
+
+        .happy-wojak {
+            display: block;
+            max-width: 280px;
+            height: auto;
+            margin: 50px auto 0;
+            border: var(--border-width) solid var(--color-black);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-black);
+            background-color: var(--color-white);
+            padding: 10px;
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .happy-wojak:hover {
+            transform: rotate(2deg) scale(1.05);
+            box-shadow: 8px 8px 0 0 var(--color-black);
+        }
+
+        /* * SECTION 7: FINAL CTA 
+         */
+        #final-cta {
+            text-align: center;
+            background-color: var(--color-red-christmas);
+            color: var(--color-white);
+        }
+
+        #final-cta .cartoon-header {
+            background-color: var(--color-yellow-hover);
+            color: var(--color-black);
+            transform: rotate(5deg);
+        }
+
+        /* * SECTION 8: FOOTER 
+         */
+        .footer {
+            padding: 30px 20px;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: var(--border-width) solid var(--color-black);
+        }
+
+        .social-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            text-decoration: none;
+            transition: transform 0.2s, filter 0.2s;
+            line-height: 1;
+            padding: 5px;
+        }
+
+        .social-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--color-white);
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .social-icon:hover svg {
+            fill: var(--color-red-header);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Christmas Decorations (Interactive elements throughout the page) -->
+    <div class="decor-wrapper">
+        <!-- Hero Section Decorations (0-800px) -->
+        <div class="christmas-decor" style="top: 150px; left: 5%; font-size: 2.5rem; color: #f6e05e; animation: floatDiagonal 10s ease-in-out infinite; animation-delay: 1s;">⭐</div>
+        <div class="christmas-decor" style="top: 200px; right: 8%; font-size: 3.5rem; color: #38a169; animation: float 9s ease-in-out infinite alternate; animation-delay: 3s;">🎄</div>
+        <div class="christmas-decor" style="top: 400px; left: 15%; font-size: 2.8rem; color: #ffffff; animation: spin 12s linear infinite; animation-delay: 2s;">❄️</div>
+        <div class="christmas-decor" style="top: 650px; right: 5%; font-size: 2rem; color: #f6e05e; animation: floatSlow 10s ease-in-out infinite; animation-delay: 3.5s;">🌟</div>
+        
+        <!-- About Section Decorations (800-1600px) -->
+        <div class="christmas-decor" style="top: 1000px; left: 8%; font-size: 3rem; color: #e53e3e; animation: floatSlow 8s ease-in-out infinite; animation-delay: 0s;">🎅</div>
+        <div class="christmas-decor" style="top: 1200px; right: 12%; font-size: 2rem; color: #f6e05e; animation: float 7s ease-in-out infinite alternate; animation-delay: 4s;">🎁</div>
+        <div class="christmas-decor" style="top: 1400px; left: 20%; font-size: 2.5rem; color: #38a169; animation: floatDiagonal 11s ease-in-out infinite; animation-delay: 1.5s;">🔔</div>
+        
+        <!-- Tokenomics Section Decorations (1600-2400px) -->
+        <div class="christmas-decor" style="top: 1800px; right: 20%; font-size: 3.2rem; color: #ffffff; animation: spin 15s linear infinite; animation-delay: 3s;">⛄</div>
+        <div class="christmas-decor" style="top: 2000px; left: 10%; font-size: 2.8rem; color: #e53e3e; animation: floatSlow 9s ease-in-out infinite; animation-delay: 2.5s;">🎀</div>
+        <div class="christmas-decor" style="top: 2200px; right: 15%; font-size: 2.5rem; color: #f6e05e; animation: floatDiagonal 10s ease-in-out infinite; animation-delay: 5s;">✨</div>
+        
+        <!-- Contract Section Decorations (2400-3200px) -->
+        <div class="christmas-decor" style="top: 2600px; left: 18%; font-size: 3rem; color: #38a169; animation: float 8s ease-in-out infinite alternate; animation-delay: 1s;">🎄</div>
+        <div class="christmas-decor" style="top: 2800px; right: 10%; font-size: 2.2rem; color: #ffffff; animation: spin 13s linear infinite; animation-delay: 4s;">❄️</div>
+        <div class="christmas-decor" style="top: 3000px; left: 12%; font-size: 2.5rem; color: #e53e3e; animation: float 9s ease-in-out infinite alternate; animation-delay: 2s;">🧦</div>
+        
+        <!-- Phases Section Decorations (3200-4000px) -->
+        <div class="christmas-decor" style="top: 3400px; right: 25%; font-size: 3rem; color: #f6e05e; animation: floatDiagonal 10s ease-in-out infinite; animation-delay: 1s;">🌟</div>
+        <div class="christmas-decor" style="top: 3600px; left: 8%; font-size: 2.8rem; color: #38a169; animation: floatSlow 11s ease-in-out infinite; animation-delay: 3s;">🎄</div>
+        <div class="christmas-decor" style="top: 3800px; right: 15%; font-size: 2.5rem; color: #ffffff; animation: spin 14s linear infinite; animation-delay: 2s;">❄️</div>
+        
+        <!-- How to Buy Section Decorations (4000-4800px) -->
+        <div class="christmas-decor" style="top: 4200px; left: 20%; font-size: 3rem; color: #e53e3e; animation: float 8s ease-in-out infinite alternate; animation-delay: 0s;">🎅</div>
+        <div class="christmas-decor" style="top: 4400px; right: 18%; font-size: 2.2rem; color: #f6e05e; animation: floatDiagonal 9s ease-in-out infinite; animation-delay: 4s;">🎁</div>
+        <div class="christmas-decor" style="top: 4600px; left: 10%; font-size: 2.8rem; color: #38a169; animation: floatSlow 10s ease-in-out infinite; animation-delay: 1.5s;">🔔</div>
+        
+        <!-- Final CTA Section Decorations (4800-5500px) -->
+        <div class="christmas-decor" style="top: 5000px; right: 12%; font-size: 3.2rem; color: #ffffff; animation: spin 12s linear infinite; animation-delay: 3s;">⛄</div>
+        <div class="christmas-decor" style="top: 5200px; left: 15%; font-size: 2.5rem; color: #e53e3e; animation: float 9s ease-in-out infinite alternate; animation-delay: 2s;">🎀</div>
+        <div class="christmas-decor" style="top: 5400px; right: 8%; font-size: 2rem; color: #f6e05e; animation: floatDiagonal 11s ease-in-out infinite; animation-delay: 5s;">✨</div>
+    </div>
+
+    <!-- HEADER/NAVBAR -->
+    <header class="header">
+        <div class="nav-content container">
+            <a href="index.html" class="logo wiggle-on-hover">
+                <img src="https://i.postimg.cc/DZ3KRrQp/159378_removebg_preview.png" alt="WOJMAS Logo" class="logo-img energetic">
+                <span class="logo-text">WOJMAS</span>
+            </a>
+            
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html#home" data-scroll>Home</a></li>
+                    <li><a href="index.html#about" data-scroll>About</a></li>
+                    <li><a href="index.html#tokenomics" data-scroll>Tokenomics</a></li>
+                    <li><a href="index.html#contract" data-scroll>Contract</a></li>
+                    <li><a href="index.html#phases" data-scroll>Phases</a></li>
+                    <li><a href="index.html#how-to-buy" data-scroll>How to Buy</a></li>
+                    <li><a href="index.html#socials" data-scroll>Socials</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger bounce-on-hover" id="hamburger">&#9776;</div> <!-- Hamburger icon -->
+        </div>
+    </header>
+
+    <!-- SECTION 1: INTRO CTA SECTION -->
+    <section id="home" class="section section-white">
+        <div class="container">
+            <h1 class="hero-title energetic">GET READY FOR THE GREENEST CHRISTMAS PUMP!</h1>
+            
+            <div class="hero-image-container bounce-on-hover">
+                <img src="https://i.postimg.cc/DZ3KRrQp/159378_removebg_preview.png" alt="WOJMAS Hero Image - Wojak with Christmas Hat" class="hero-image" data-wiggle-img>
+            </div>
+
+            <p style="font-size: 1.2rem; margin-top: 20px; transform: rotate(-1deg);">Wojak has a BAG now. Merry Wojmas!</p>
+            
+            <div class="cta-buttons">
+                <a href="https://pump.fun/coin/HxoTQP9D6sdizU6H3HWTypkruYrL3ovuXuBmmRubpump" target="_blank" class="cartoon-btn wiggle-on-hover" style="background-color: #10b981; display: inline-flex; align-items: center; gap: 10px;"><img src="https://i.postimg.cc/Nf8kWVZ0/6866-syew6z-192x192.webp" alt="Uniswap" style="width: 24px; height: 24px;">PUMPFUN</a>
+                <a href="https://dexscreener.com/solana/wrukjyupch9vmoortnt6xjzcdxbr32tqhqmjgtekpyw" target="_blank" class="cartoon-btn wiggle-on-hover">DEXSCREENER</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: ABOUT SECTION -->
+    <section id="about" class="section section-red">
+        <div class="container">
+            <h2 class="cartoon-header">WHAT IS WOJMAS?</h2>
+            
+            <p>
+                Wojmas ($WOJMAS) brings the iconic Wojak, crypto’s biggest “Feels Guy,” into full Christmas mode.
+                <br><br>
+                With Wojak hitting a fresh ATH, it’s time for Wojmas to run. The festive spirit grows stronger as Wojmas blends nostalgia, humor, and holiday chaos, capturing the season’s emotions and spreading cheerful meme energy across the entire crypto community
+                <br><br>
+                $WOJMAS is not just another coin; it's the official meme coin of the holiday season, capturing the uniquely complex feeling of Christmas—the pressure to be happy, the memories of past cycles, the warmth of an unexpected embrace, and the silent hope for a green future.
+            </p>
+            
+            <img src="https://i.postimg.cc/Hx1CFw0F/poster.jpg" alt="WOJMAS Poster Meme" style="max-width: 100%; height: auto; margin-top: 30px; border: 3px solid black; box-shadow: 6px 6px 0 black; transform: rotate(4deg);">
+        </div>
+    </section>
+
+    <!-- SECTION 3: TOKENOMICS SECTION -->
+    <section id="tokenomics" class="section section-white">
+        <div class="container">
+            <h2 class="cartoon-header">WOJMAS TOKENOMICS</h2>
+            
+            <div class="tokenomics-grid">
+                <div class="token-item bounce-on-hover">
+                    <h3>Token Name</h3>
+                    <p>WOJMAS</p>
+                </div>
+                <div class="token-item bounce-on-hover">
+                    <h3>Symbol</h3>
+                    <p>WOJMAS</p>
+                </div>
+                <div class="token-item bounce-on-hover">
+                    <h3>Blockchain</h3>
+                    <p>SOLANA (PUMPFUN LAUNCH)</p>
+                </div>
+                <div class="token-item bounce-on-hover">
+                    <h3>Total Supply</h3>
+                    <p>100,000,000</p>
+                </div>
+                <div class="token-item bounce-on-hover">
+                    <h3>Liquidity</h3>
+                    <p>Locked</p>
+                </div>
+                <div class="token-item bounce-on-hover">
+                    <h3>Taxes</h3>
+                    <p>None (0/0)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: CONTRACT ADDRESS SECTION -->
+    <section id="contract" class="section section-red">
+        <div class="container">
+            <h2 class="cartoon-header">CONTRACT ADDRESS</h2>
+            
+            <p style="font-size: 1.3rem; color: var(--color-white); text-shadow: 2px 2px 0 var(--color-black); margin-bottom: 20px; font-weight: bold;">👇 CLICK THE BOX BELOW TO COPY 👇</p>
+
+            <div class="contract-box bounce-on-hover" id="copyButton">
+                <span id="contractAddress">CA: HxoT....pump</span>
+                <!-- Custom icon using a system emoji -->
+                <span class="copy-icon" title="Copy to clipboard">📋</span>
+            </div>
+
+            <p style="margin-top: 15px; font-size: 1.1rem; color: var(--color-white); text-shadow: 1px 1px 0 var(--color-black);">The bag is about to drop! Stay frosty.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 5: PHASES SECTION -->
+    <section id="phases" class="section section-white">
+        <div class="container">
+            <h2 class="cartoon-header">THE WOJMAS ROADMAP (Chaotic Playbook)</h2>
+            
+            <div class="roadmap-grid">
+                <!-- Phase 1 -->
+                <div class="phase energetic">
+                    <img src="https://i.postimg.cc/RF1zmWXr/159381.png" alt="Phase 1 Meme" class="phase-image">
+                    <div class="phase-content">
+                        <div class="phase-title">Phase 1: The Feels Drop</div>
+                        <ul class="phase-details" style="list-style: none;">
+                            <li>- Launch on SOLANA via Pumpfun.</li>
+                            <li>- Community Building & Meme Blitzkrieg.</li>
+                            <li>- Getting to 1000 Holders (The First Noodle Sippers).</li>
+                            <li>- Start the Christmas Countdown!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="phase energetic">
+                    <img src="https://i.postimg.cc/85dVG7w2/159383.png" alt="Phase 2 Meme" class="phase-image">
+                    <div class="phase-content">
+                        <div class="phase-title">Phase 2: The Silent Green Hope</div>
+                        <ul class="phase-details" style="list-style: none;">
+                            <li>- CEX Listings Applications (Get us on the big board).</li>
+                            <li>- Strategic Partnerships (Wojak friends only).</li>
+                            <li>- Merch Store & NFT Drop (Wear the Feels).</li>
+                            <li>- Reaching 5000 Holders (The Comfort Zone).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="phase energetic">
+                    <img src="https://i.postimg.cc/G2P1R4zN/159384.png" alt="Phase 3 Meme" class="phase-image">
+                    <div class="phase-content">
+                        <div class="phase-title">Phase 3: CHRISTMAS MEGA-PUMP</div>
+                        <ul class="phase-details" style="list-style: none;">
+                            <li>- TIER 1 Exchange Listing (The Ultimate Bag).</li>
+                            <li>- Global Meme Domination (Wojmas on every screen).</li>
+                            <li>- Decentralized Autonomous Organization (DAO) formation.</li>
+                            <li>- Making every holder feel just a little bit less lonely this Christmas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: HOW TO BUY SECTION -->
+    <section id="how-to-buy" class="section section-red">
+        <div class="container">
+            <h2 class="cartoon-header">HOW TO BUY $WOJMAS</h2>
+
+            <div class="step-card-grid">
+                <div class="step-card bounce-on-hover">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Get Wallet</div>
+                    <div class="step-desc">Install Phantom or Sollet (for SOLANA) on your browser or mobile device.</div>
+                </div>
+                <div class="step-card bounce-on-hover">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Get SOL</div>
+                    <div class="step-desc">Buy Solana (SOL) from any major exchange and send it to your new wallet.</div>
+                </div>
+                <div class="step-card bounce-on-hover">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Swap for $WOJMAS</div>
+                    <div class="step-desc">Connect your wallet to a DEX (like Jupiter) and swap your SOL for $WOJMAS using the CA.</div>
+                </div>
+            </div>
+
+            <img src="https://i.postimg.cc/RF1zmWGp/159386.png" alt="Happy Wojak with Money" class="happy-wojak">
+        </div>
+    </section>
+
+    <!-- SECTION 7: FINAL CTA SECTION -->
+    <section id="final-cta" class="section section-white">
+        <div class="container">
+             <h2 class="cartoon-header">DON'T MISS THE CHRISTMAS PUMP!</h2>
+             <p style="font-size: 1.5rem; margin: 30px 0; color: var(--color-black);">The best bags are opened on Christmas morning.</p>
+             <a href="https://twitter.com/i/communities/1993335542327411121" target="_blank" class="cartoon-btn wiggle-on-hover" style="background-color: var(--color-black); color: var(--color-yellow-hover);">JOIN THE WOJMAS ARMY!</a>
+        </div>
+    </section>
+
+    <!-- SECTION 8: FOOTER -->
+    <footer class="footer" id="socials">
+        <p>&copy; 2025 WOJMAS. All feels reserved.</p>
+        <div class="social-links">
+            <a href="https://twitter.com/i/communities/1993335542327411121" target="_blank" class="social-icon" title="Twitter/X">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    <!-- TOAST Notification -->
+    <div id="toast">Copied!</div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // All JavaScript is internal and self-contained.
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.getElementById('hamburger');
+            const copyButton = document.getElementById('copyButton');
+            const contractAddressElement = document.getElementById('contractAddress');
+            const heroImage = document.querySelector('[data-wiggle-img]');
+            const toast = document.getElementById('toast');
+
+            // --- 1. HAMBURGER MENU TOGGLE ---
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Close menu when a link is clicked (mobile friendly)
+            document.querySelectorAll('[data-scroll]').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                    }
+                });
+            });
+
+            // --- 2. IMAGE WIGGLE ON MOUSEOVER ---
+            if (heroImage) {
+                // Add minor translation/rotation on mouse movement over the hero image
+                heroImage.parentElement.addEventListener('mousemove', (e) => {
+                    const rect = heroImage.parentElement.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+                    heroImage.style.transform = `
+                        scale(1.02) 
+                        translate(${x * 5}px, ${y * 5}px) 
+                        rotate(${x * 2}deg)
+                    `;
+                });
+
+                heroImage.parentElement.addEventListener('mouseleave', () => {
+                    heroImage.style.transform = 'scale(1) translate(0, 0) rotate(0deg)';
+                });
+            }
+
+            // --- 3. CONTRACT ADDRESS COPY ---
+            copyButton.addEventListener('click', () => {
+                const textToCopy = contractAddressElement.textContent.replace('CA: ', '');
+                
+                // Use the full contract address if placeholder is shown
+                const finalCopyText = textToCopy === 'HxoT....pump' ? 'HxoTQP9D6sdizU6H3HWTypkruYrL3ovuXuBmmRubpump' : textToCopy;
+
+                // Function to copy text using the standard execCommand (reliable in iframe/browser environment)
+                function copyTextToClipboard(text) {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    
+                    // Avoid scrolling to bottom by fixing position
+                    textArea.style.position = "fixed";
+                    textArea.style.top = 0;
+                    textArea.style.left = 0;
+
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+
+                    try {
+                        const successful = document.execCommand('copy');
+                        if (successful) {
+                            showToast("Contract Address Copied!");
+                        } else {
+                            showToast("Copy failed. Try manually.");
+                        }
+                    } catch (err) {
+                        showToast("Copy failed. Browser issue.");
+                    }
+
+                    document.body.removeChild(textArea);
+                }
+
+                copyTextToClipboard(finalCopyText);
+            });
+            
+            // --- 4. TOAST MESSAGE FUNCTION ---
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add("show");
+                
+                // Hide the toast after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3000);
+            }
+
+            // --- 5. INTERACTIVE CHRISTMAS DECORATIONS ---
+            const decorations = document.querySelectorAll('.christmas-decor');
+            decorations.forEach(decor => {
+                decor.addEventListener('click', function() {
+                    // Create a burst effect
+                    this.style.animation = 'none';
+                    this.style.transform = 'scale(1.5) rotate(720deg)';
+                    this.style.transition = 'all 0.5s ease-out';
+                    
+                    setTimeout(() => {
+                        this.style.animation = '';
+                        this.style.transform = '';
+                        this.style.transition = '';
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
