@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ultimate Platformer Fighting Game</title>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+<style>body{margin:0;overflow:hidden;}</style>
+</head>
+
+<body>
+
+<script>
+////////////////////////////////////////////////////////////////////////////////
+// GAME CONFIG
+////////////////////////////////////////////////////////////////////////////////
+
+const config = {
+    type: Phaser.AUTO,
+    width: 1950,
+    height: 880,
+    physics: {
+        default: "arcade",
+        arcade: {
+            gravity: { y: 800 },
+            debug: false
+        }
+    },
+    scene: { preload, create, update }
+};
+
+new Phaser.Game(config);
+
+////////////////////////////////////////////////////////////////////////////////
+// PRELOAD
+////////////////////////////////////////////////////////////////////////////////
+
+function preload() {
+    this.load.spritesheet("hero", "walk_cycle.png", {
+        frameWidth: 256,
+        frameHeight: 256
+    });
+
+    this.load.image("ground", "/hohoho_ground.png");
+    this.load.image("coin", "https://labs.phaser.io/assets/sprites/coin.png");
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// CREATE
+////////////////////////////////////////////////////////////////////////////////
+
+let player, enemyGroup, cursors, keys, comboState = 0;
+let hpBarPlayer, hpBarEnemy;
+
+function create() {
+
+    ////////////////////////////////////////////////////////////////////////////
+    // BACKGROUND + WORLD
+    ////////////////////////////////////////////////////////////////////////////
+    const ground = this.physics.add.staticGroup();
+    ground.create(1000, 700, "ground").setScale(10).refreshBody();
+
+    ////////////////////////////////////////////////////////////////////////////
+    // PLAYER SETUP
+    ////////////////////////////////////////////////////////////////////////////
+    player = this.physics.add.sprite(200, 400, "hero", 0);
+    player.setScale(0.6);
+    player.setCollideWorldBounds(true);
+    player.hp = 100;
+
+    ////////////////////////////////////////////////////////////////////////////
+    // ANIMATIONS
+    ////////////////////////////////////////////////////////////////////////////
+
+    // Idle
+    this.anims.create({
+        key: "idle",
+        frames: this.anims.generateFrameNumbers("hero", { start: 8, end: 11 }),
+        frameRate: 6,
+        repeat: -1
+    });
+
+    // Walk
+    this.anims.create({
+        key: "walk",
+        frames: this.anims.generateFrameNumbers("hero", { start: 0, end: 7 }),
+        frameRate: 8,
+        repeat: -1
+    });
+
+    // Punch
+    this.anims.create({
+        key: "punch",
+        frames: [{ key: "hero", frame: 12 }],
+        frameRate: 12
+    });
+
+    // Kick
+    this.anims.create({
+        key: "kick",
+        frames: [{ key: "hero", frame: 13 }],
+        frameRate: 12
+    });
+
+    // Special attack
+    this.anims.create({
+        key: "special",
+        frames: [{ key: "hero", frame: 14 }],
+        frameRate: 6
+    });
+
+    // Hurt
+    this.anims.create({
+        key: "hurt",
+        frames: [{ key: "hero", frame: 15 }],
+        frameRate: 6
+    });
+
+    ////////////////////////////////////////////////////////////////////////////
+    // ENEMY GROUP
+    ////////////////////////////////////////////////////////////////////////////
+    enemyGroup = this.physics.add.group();
+
+    createEnemy(this, 900, 400);
+
+    ////////////////////////////////////////////////////////////////////////////
+    // COLLISION
+    ////////////////////////////////////////////////////////////////////////////
+    this.physics.add.collider(player, ground);
+    this.physics.add.collider(enemyGroup, ground);
+
+    ////////////////////////////////////////////////////////////////////////////
+    // INPUT
+    ////////////////////////////////////////////////////////////////////////////
+    cursors = this.input.keyboard.createCursorKeys();
+
+    keys = this.input.keyboard.addKeys({
+        punch: Phaser.Input.Keyboard.KeyCodes.SPACE,
+        kick: Phaser.Input.Keyboard.KeyCodes.M,
+        special: Phaser.Input.Keyboard.KeyCodes.N,
+
+        // Player 2 controls
+        w: Phaser.Input.Keyboard.KeyCodes.W,
+        a: Phaser.Input.Keyboard.KeyCodes.A,
+        s: Phaser.Input.Keyboard.KeyCodes.S,
+        d: Phaser.Input.Keyboard.KeyCodes.D,
+        f: Phaser.Input.Keyboard.KeyCodes.F
+    });
+
+    ////////////////////////////////////////////////////////////////////////////
+    // HP BAR
+    ////////////////////////////////////////////////////////////////////////////
+    hpBarPlayer = createHpBar(this, 50, 50, 100);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// HP BAR CREATION
+////////////////////////////////////////////////////////////////////////////////
+
+function createHpBar(scene, x, y, max) {
+    let bar = scene.add.graphics();
+    bar.max = max;
+    bar.x = x;
+    bar.y = y;
+    bar.setDepth(20);
+    bar.render = function (hp) {
+        this.clear();
+        this.fillStyle(0x000000);
+        this.fillRect(0, 0, 200, 20);
+        this.fillStyle(0xff0000);
+        this.fillRect(2, 2, (hp / this.max) * 196, 16);
+    };
+    bar.render(max);
+    return bar;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// CREATE ENEMY
+////////////////////////////////////////////////////////////////////////////////
+
+function createEnemy(scene, x, y) {
+    let enemy = enemyGroup.create(x, y, "hero", 0);
+    enemy.setScale(0.6)
+    enemy.hp = 100;
+    enemy.speed = 80;
+    enemy.state = "patrol"; // patrol → chase → attack → hurt
+    enemy.direction = Math.random() < 0.5 ? -1 : 1;
+    return enemy;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// UPDATE LOOP
+////////////////////////////////////////////////////////////////////////////////
+
+function update() {
+    if (!player) return;
+
+    ////////////////////////////////////////////////////////////////////////
+    // PLAYER MOVEMENT
+    ////////////////////////////////////////////////////////////////////////
+    player.setVelocityX(0);
+
+    if (cursors.left.isDown) {
+        player.setVelocityX(-200);
+        player.flipX = true;
+        player.anims.play("walk", true);
+    } else if (cursors.right.isDown) {
+        player.setVelocityX(200);
+        player.flipX = false;
+        player.anims.play("walk", true);
+    } else {
+        player.anims.play("idle", true);
+    }
+
+    if (cursors.up.isDown && player.body.touching.down) {
+        player.setVelocityY(-550);
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+    // COMBO ATTACKS (punch → kick → special)
+    ////////////////////////////////////////////////////////////////////////
+
+    if (Phaser.Input.Keyboard.JustDown(keys.punch)) {
+        player.anims.play("punch", true);
+        comboState = 1;
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(keys.kick) && comboState === 1) {
+        player.anims.play("kick", true);
+        comboState = 2;
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(keys.special) && comboState === 2) {
+        player.anims.play("special", true);
+        comboState = 0;
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+    // ENEMY AI
+    ////////////////////////////////////////////////////////////////////////
+
+    enemyGroup.children.iterate(enemy => {
+
+        if (!enemy) return;
+
+        let distance = Phaser.Math.Distance.Between(
+            player.x, player.y,
+            enemy.x, enemy.y
+        );
+
+        if (distance < 300 && enemy.state !== "hurt") {
+            enemy.state = "chase";
+        } else if (enemy.state !== "hurt") {
+            enemy.state = "patrol";
+        }
+
+        // Patrol
+        if (enemy.state === "patrol") {
+            enemy.setVelocityX(enemy.direction * enemy.speed);
+            if (Math.random() < 0.01) enemy.direction *= -1;
+        }
+
+        // Chase
+        if (enemy.state === "chase") {
+            enemy.setVelocityX(player.x < enemy.x ? -enemy.speed : enemy.speed);
+        }
+
+        // Attack
+        if (distance < 60) {
+            player.hp -= 0.3;
+            hpBarPlayer.render(player.hp);
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Platformer — Character Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="ui">
+    <div id="hp">HP: <span id="hpVal">100</span></div>
+    <div id="coins">Coins: <span id="coinVal">0</span></div>
+    <div id="inventory">Inventory: <span id="invVal">[]</span></div>
+    <div id="shopBtn"><button id="openShop">Open Shop</button></div>
+    <div id="multiplayerNote">Local Multiplayer: Arrow keys + M = P1 attack | WASD + F = P2 attack</div>
+  </div>
+  <canvas id="game" width="960" height="540"></canvas>
+
+  <!-- Simple shop/inventory modal -->
+  <div id="shop" class="hidden">
+    <h2>Shop</h2>
+    <div id="shopItems"></div>
+    <button id="closeShop">Close</button>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
