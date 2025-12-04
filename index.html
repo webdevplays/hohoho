@@ -732,7 +732,18 @@
 
 
 
-
+#play,
+#pause {
+	float: left;
+	width: 40px;
+}
+#play:hover,
+#pause:hover {
+	cursor: pointer;
+}
+#pause {
+	display: none;
+}
 
     </style>
 </head>
@@ -775,6 +786,10 @@
     <div class="snow-container"></div>
 <div style="height: 200vh;">
 
+
+<audio id="bgm" autoplay loop>
+<source src="/wishyou.mp3" type="audio/mpeg" />
+</audio>
     <!-- HEADER/NAVBAR -->
     <header class="header">
         <div class="nav-content container">
@@ -1131,6 +1146,25 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("visibilitychange", handleVisibilityChange);
 });
 
+
+
+
+
+
+var bgm=document.getElementById("bgm");
+function bgmPlay()
+  {
+  bgm.play();
+  }
+function bgmPause()
+  {
+  bgm.pause();
+  } 
+function bgmStop()
+  {
+  bgm.pause();
+  bgm.currentTime = 0;
+  } 
 
 
     </script>
